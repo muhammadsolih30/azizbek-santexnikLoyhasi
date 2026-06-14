@@ -146,9 +146,16 @@ function closeAdmin() {
   document.getElementById('public-site').style.display = 'block';
   if (location.hash === '#admin') { history.replaceState(null, '', location.pathname); }
 }
+/* Admin login: oddiy "admin" loginini ichki email'ga bog'laymiz.
+   Foydalanuvchi "admin" yozadi, Supabase'da esa quyidagi email saqlanadi. */
+const ADMIN_LOGIN = 'admin';
+const ADMIN_EMAIL = 'admin@climate-life.uz';
+
 async function doLogin() {
-  const email = document.getElementById('lu').value.trim();
+  const loginInput = document.getElementById('lu').value.trim();
   const pass = document.getElementById('lp').value;
+  // "admin" yozilsa ichki email'ga aylantiramiz; email yozilsa o'zini ishlatamiz
+  const email = (loginInput.toLowerCase() === ADMIN_LOGIN) ? ADMIN_EMAIL : loginInput;
   const btn = document.getElementById('loginBtn');
   btn.disabled = true; btn.textContent = '⏳ ...';
   const res = await sb.auth.signInWithPassword({ email, password: pass });
