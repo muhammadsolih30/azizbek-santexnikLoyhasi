@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate-life — Xolodilnik va Konditsaner Ta'mirlash</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./app.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --orange:#ff6b35;--orange-dark:#e8531f;--orange-light:#fff1ec;
+  --navy:#0f1b2d;--text:#1f2937;--muted:#6b7280;
+  --light:#f7f8fa;--light2:#eef0f3;--border:#e5e7eb;--white:#fff;
+  --green:#22c55e;--yellow:#fbbf24;
+  --shadow:0 4px 20px rgba(15,27,45,.08);--shadow-lg:0 16px 48px rgba(15,27,45,.16);
+  --radius:16px;--radius-lg:24px;
+}
+html{-webkit-tap-highlight-color:transparent;scroll-behavior:smooth;}
+body{font-family:'Manrope',sans-serif;background:var(--white);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+button{font-family:'Manrope',sans-serif;cursor:pointer;border:none;outline:none;background:none;}
+h1,h2,h3,h4{font-family:'Outfit',sans-serif;}
+
+.topbar{background:var(--navy);color:rgba(255,255,255,.85);padding:9px 16px;font-size:13px;font-weight:600;}
+.topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.topbar-left{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.topbar-item{display:flex;align-items:center;gap:6px;}
+.topbar-call{display:flex;align-items:center;gap:7px;background:var(--orange);color:#fff;border-radius:8px;padding:5px 14px;font-weight:800;font-size:13px;}
+
+header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:500;}
+.header-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;gap:16px;}
+.logo{display:flex;align-items:center;gap:11px;}
+.logo-icon{width:46px;height:46px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 6px 16px rgba(255,107,53,.3);}
+.logo-text .ln{font-size:20px;font-weight:900;color:var(--navy);letter-spacing:-.4px;line-height:1.1;}
+.logo-text .ln em{color:var(--orange);font-style:normal;}
+.logo-text .ls{font-size:11px;color:var(--muted);font-weight:700;margin-top:1px;}
+nav.main-nav{display:flex;align-items:center;gap:6px;}
+.nav-link{padding:10px 16px;border-radius:10px;font-size:14px;font-weight:700;color:var(--text);transition:.15s;}
+.nav-link:hover{background:var(--light2);color:var(--orange-dark);}
+.header-cta{display:flex;align-items:center;gap:10px;}
+.cta-call{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:var(--navy);}
+.cta-call .ico{width:38px;height:38px;background:var(--orange-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--orange);flex-shrink:0;}
+.cta-call .small{display:block;font-size:10.5px;color:var(--muted);font-weight:600;}
+.btn-order{background:var(--orange);color:#fff;border-radius:11px;padding:12px 22px;font-size:14px;font-weight:800;transition:.2s;white-space:nowrap;box-shadow:0 6px 16px rgba(255,107,53,.3);}
+.btn-order:hover{background:var(--orange-dark);transform:translateY(-1px);}
+.mob-menu-btn{display:none;font-size:24px;color:var(--navy);padding:6px;}
+
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#142436 60%,#1d3450 100%);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,107,53,.18),transparent 70%);border-radius:50%;}
+.hero::after{content:'';position:absolute;bottom:-150px;left:-100px;width:350px;height:350px;background:radial-gradient(circle,rgba(34,197,94,.1),transparent 70%);border-radius:50%;}
+.hero-inner{max-width:1280px;margin:0 auto;padding:64px 16px 80px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:50px;padding:7px 16px;font-size:12.5px;font-weight:700;margin-bottom:22px;}
+.hero-badge .dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.hero h1{font-size:clamp(1.7rem,4.2vw,3.2rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:18px;letter-spacing:-1px;}
+.hero h1 em{color:var(--orange);font-style:normal;}
+.hero p{font-size:16px;color:rgba(255,255,255,.65);max-width:480px;margin-bottom:30px;}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:34px;}
+.btn-primary{background:var(--orange);color:#fff;border-radius:13px;padding:15px 28px;font-size:15px;font-weight:800;transition:.2s;box-shadow:0 8px 24px rgba(255,107,53,.35);display:inline-flex;align-items:center;gap:8px;}
+.btn-primary:hover{background:var(--orange-dark);transform:translateY(-2px);}
+.btn-secondary{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);color:#fff;border-radius:13px;padding:15px 26px;font-size:15px;font-weight:800;transition:.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-secondary:hover{background:rgba(255,255,255,.14);}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
+.hero-stat .num{font-size:1.8rem;font-weight:900;color:#fff;font-family:'Outfit',sans-serif;}
+.hero-stat .num em{color:var(--orange);font-style:normal;}
+.hero-stat .lbl{font-size:12.5px;color:rgba(255,255,255,.5);font-weight:600;margin-top:2px;}
+.hero-visual{position:relative;}
+.hero-img-card{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);position:relative;aspect-ratio:4/3.4;}
+.hero-img-card img{width:100%;height:100%;object-fit:cover;}
+
+.section{max-width:1280px;margin:0 auto;padding:70px 16px;}
+.section-tag{display:inline-flex;align-items:center;gap:7px;background:var(--orange-light);color:var(--orange-dark);border-radius:50px;padding:6px 16px;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;}
+.section-head{margin-bottom:42px;}
+.section-head h2{font-size:clamp(1.5rem,3vw,2.4rem);font-weight:900;color:var(--navy);letter-spacing:-.6px;margin-bottom:10px;}
+.section-head h2 em{color:var(--orange);font-style:normal;}
+.section-head p{color:var(--muted);font-size:15px;max-width:540px;}
+.section-head.center{text-align:center;}
+.section-head.center p{margin:0 auto;}
+
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:20px;}
+.svc-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;transition:.25s;position:relative;overflow:hidden;}
+.svc-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px);border-color:transparent;}
+.svc-card .svc-ico{width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:18px;}
+.svc-card.t1 .svc-ico{background:linear-gradient(135deg,#fff1ec,#ffe2d6);}
+.svc-card.t2 .svc-ico{background:linear-gradient(135deg,#e8f5ff,#d6ecff);}
+.svc-card h3{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px;}
+.svc-card p{font-size:13.5px;color:var(--muted);margin-bottom:16px;line-height:1.65;}
+.svc-list{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:18px;}
+.svc-list li{font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;font-weight:600;}
+.svc-list li::before{content:'✓';color:var(--green);font-weight:900;}
+.svc-price{display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid var(--border);padding-top:14px;}
+.svc-price .from{font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;}
+.svc-price .val{font-size:1.3rem;font-weight:900;color:var(--navy);font-family:'Outfit',sans-serif;}
+.svc-price .val small{font-size:12px;color:var(--muted);font-weight:600;}
+.svc-badge{position:absolute;top:18px;right:18px;background:var(--orange);color:#fff;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:7px;}
+
+.process-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;}
+.process-num{width:54px;height:54px;border-radius:15px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;font-family:'Outfit',sans-serif;margin-bottom:16px;}
+.process-step:nth-child(odd) .process-num{background:var(--orange);}
+.process-step h4{font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:7px;}
+.process-step p{font-size:13.5px;color:var(--muted);}
+
+.order-section{background:var(--light);}
+.order-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:36px;align-items:start;}
+.order-info h2{font-size:clamp(1.5rem,3vw,2.3rem);font-weight:900;color:var(--navy);margin-bottom:14px;}
+.order-info h2 em{color:var(--orange);font-style:normal;}
+.order-info p{color:var(--muted);margin-bottom:24px;}
+.order-benefit{display:flex;gap:13px;align-items:flex-start;margin-bottom:18px;}
+.ob-ico{width:42px;height:42px;background:#fff;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.order-benefit strong{display:block;font-size:14px;color:var(--navy);font-weight:800;margin-bottom:2px;}
+.order-benefit span{font-size:13px;color:var(--muted);}
+.order-form-card{background:#fff;border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-lg);}
+.order-form-card h3{font-size:1.25rem;font-weight:900;color:var(--navy);margin-bottom:5px;}
+.order-form-card .sub{font-size:13px;color:var(--muted);margin-bottom:24px;}
+.fgroup{margin-bottom:16px;}
+.fgroup label{display:block;font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:7px;}
+.fgroup label .req{color:var(--orange);}
+.fgroup input,.fgroup select,.fgroup textarea{width:100%;border:1.5px solid var(--border);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:14px;color:var(--text);outline:none;transition:.2s;background:#fff;}
+.fgroup input:focus,.fgroup select:focus,.fgroup textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,.1);}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.device-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.device-opt{border:1.5px solid var(--border);border-radius:11px;padding:13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s;font-weight:700;font-size:13.5px;}
+.device-opt:hover{border-color:var(--orange);}
+.device-opt.active{border-color:var(--orange);background:var(--orange-light);color:var(--orange-dark);}
+.device-opt input{display:none;}
+.device-opt .dico{font-size:22px;}
+.submit-btn{width:100%;background:var(--orange);color:#fff;border-radius:12px;padding:15px;font-size:15.5px;font-weight:900;transition:.2s;margin-top:6px;box-shadow:0 8px 20px rgba(255,107,53,.3);}
+.submit-btn:hover{background:var(--orange-dark);}
+.form-success{display:none;text-align:center;padding:30px 10px;}
+.form-success.show{display:block;}
+.form-success .fs-ico{font-size:54px;margin-bottom:14px;}
+.form-success h4{font-size:1.2rem;font-weight:900;color:var(--navy);margin-bottom:8px;}
+.form-success p{color:var(--muted);font-size:13.5px;}
+
+.masters-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;}
+.master-card{text-align:center;background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 20px;transition:.25s;}
+.master-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px);}
+.master-photo{width:104px;height:104px;border-radius:50%;overflow:hidden;margin:0 auto 16px;border:4px solid var(--orange-light);}
+.master-photo img{width:100%;height:100%;object-fit:cover;}
+.master-card h4{font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:3px;}
+.master-role{font-size:12.5px;color:var(--orange-dark);font-weight:700;margin-bottom:10px;}
+.master-meta{display:flex;justify-content:center;gap:16px;font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:10px;}
+.master-stars{color:var(--yellow);font-size:14px;}
+.master-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.mtag{background:var(--light2);border-radius:7px;padding:3px 9px;font-size:11px;font-weight:700;color:var(--muted);}
+
+.reviews-section{background:var(--navy);position:relative;overflow:hidden;}
+.reviews-section::before{content:'';position:absolute;top:-150px;right:-100px;width:380px;height:380px;background:radial-gradient(circle,rgba(255,107,53,.12),transparent 70%);border-radius:50%;}
+.reviews-section .section-head h2{color:#fff;}
+.reviews-section .section-head p{color:rgba(255,255,255,.5);}
+.reviews-section .section-tag{background:rgba(255,107,53,.15);color:var(--orange);}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;position:relative;z-index:1;}
+.review-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-lg);padding:24px;}
+.review-stars{color:var(--yellow);font-size:14px;margin-bottom:12px;}
+.review-text{font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:18px;}
+.review-author{display:flex;align-items:center;gap:11px;}
+.rauthor-avatar{width:42px;height:42px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0;}
+.rauthor-name{font-size:13.5px;font-weight:800;color:#fff;}
+.rauthor-meta{font-size:11.5px;color:rgba(255,255,255,.4);font-weight:600;}
+
+.faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px;}
+.faq-item{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.2s;}
+.faq-item.open{border-color:var(--orange);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;font-weight:800;font-size:14.5px;color:var(--navy);gap:14px;}
+.faq-q .fplus{font-size:20px;color:var(--orange);transition:.25s;flex-shrink:0;}
+.faq-item.open .fplus{transform:rotate(45deg);}
+.faq-a{padding:0 22px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:13.5px;color:var(--muted);line-height:1.7;}
+.faq-item.open .faq-a{padding:0 22px 20px;max-height:400px;}
+
+.cta-band{background:linear-gradient(135deg,var(--orange),var(--orange-dark));border-radius:var(--radius-lg);padding:48px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.cta-band::after{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;background:rgba(255,255,255,.1);border-radius:50%;}
+.cta-band-text h3{font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:6px;}
+.cta-band-text p{color:rgba(255,255,255,.85);font-size:14px;}
+.cta-band .btn-secondary{background:#fff;color:var(--orange-dark);border:none;}
+
+footer{background:var(--navy);color:rgba(255,255,255,.6);}
+.footer-top{max-width:1280px;margin:0 auto;padding:54px 16px 36px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:36px;}
+.footer-brand .ln{font-size:21px;font-weight:900;color:#fff;}
+.footer-brand .ln em{color:var(--orange);font-style:normal;}
+.footer-desc{font-size:12.5px;color:rgba(255,255,255,.4);margin-top:12px;line-height:1.7;}
+.footer-col h4{font-size:13px;font-weight:800;color:#fff;margin-bottom:14px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col ul a{font-size:12.5px;color:rgba(255,255,255,.45);transition:.2s;}
+.footer-col ul a:hover{color:var(--orange);}
+.footer-social{display:flex;gap:8px;margin-top:14px;}
+.fsoc{width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;transition:.2s;}
+.fsoc:hover{background:var(--orange);}
+.footer-bot{border-top:1px solid rgba(255,255,255,.06);padding:18px 16px;text-align:center;font-size:11.5px;color:rgba(255,255,255,.25);max-width:1280px;margin:0 auto;}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--navy);color:#fff;padding:12px 24px;border-radius:12px;font-size:13.5px;font-weight:700;z-index:99999;opacity:0;transition:.35s;pointer-events:none;border-left:4px solid var(--orange);max-width:90vw;text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.admin-fab{position:fixed;bottom:22px;right:18px;background:var(--navy);color:#fff;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:var(--shadow-lg);z-index:900;transition:.25s;}
+.admin-fab:hover{background:var(--orange);transform:rotate(90deg);}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:7500;}
+.overlay.open{display:block;}
+.mob-drawer{position:fixed;right:-110%;top:0;bottom:0;width:280px;max-width:85vw;background:#fff;z-index:8000;transition:right .35s;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);}
+.mob-drawer.open{right:0;}
+.mob-drawer-head{padding:18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.mob-close{font-size:22px;color:var(--muted);}
+.mob-links{list-style:none;padding:12px;display:flex;flex-direction:column;gap:2px;}
+.mob-links a{display:block;padding:13px;border-radius:10px;font-size:15px;font-weight:700;color:var(--navy);transition:.15s;}
+.mob-links a:hover{background:var(--light2);color:var(--orange-dark);}
+
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;text-align:center;padding:48px 16px 60px;}
+  .hero p{margin:0 auto 30px;}
+  .hero-actions{justify-content:center;}
+  .hero-stats{justify-content:center;}
+  .hero-visual{max-width:460px;margin:0 auto;width:100%;}
+  .order-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  .topbar-left{gap:10px;}
+  .topbar-item:not(.topbar-call) span:last-child{display:none;}
+  nav.main-nav{display:none;}
+  .header-cta .cta-call{display:none;}
+  .mob-menu-btn{display:flex;}
+  .section{padding:50px 16px;}
+  .frow2{grid-template-columns:1fr;}
+  .cta-band{flex-direction:column;text-align:center;padding:36px 24px;}
+  .footer-top{grid-template-columns:1fr;gap:28px;}
+}
+@media(max-width:480px){
+  body{font-size:14px;}
+  .header-inner{padding:12px 14px;}
+  .logo-icon{width:40px;height:40px;font-size:20px;}
+  .logo-text .ln{font-size:17px;}
+  .btn-order{padding:10px 14px;font-size:13px;}
+  .hero-inner{padding:36px 14px 48px;gap:28px;}
+  .hero-badge{font-size:11px;padding:6px 12px;}
+  .hero p{font-size:14.5px;}
+  .hero-actions{flex-direction:column;gap:10px;}
+  .btn-primary,.btn-secondary{width:100%;justify-content:center;padding:14px;}
+  .hero-stats{gap:18px 24px;}
+  .hero-stat .num{font-size:1.4rem;}
+  .section{padding:42px 14px;}
+  .section-head{margin-bottom:30px;}
+  .svc-card{padding:22px;}
+  .order-form-card{padding:20px;}
+  .device-options{grid-template-columns:1fr;}
+  .topbar-inner{justify-content:center;}
+  .topbar-left{display:none;}
+  .cta-band-text h3{font-size:1.3rem;}
+  .cta-band .btn-secondary{width:100%;justify-content:center;}
+  .masters-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      
+    </div>
+    
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <a href="#bosh" class="logo">
+      <div class="logo-icon"><img src="./photo_2026-06-13_19-56-02.jpg" alt=""></div>
+      <div class="logo-text">
+        <div class="ln">Climate-<em>life</em></div>
+        <div class="ls">Maishiy texnika ustasi</div>
+      </div>
+    </a>
+    <nav class="main-nav">
+      <a href="#xizmatlar" class="nav-link">Xizmatlar</a>
+      <a href="#qanday-ishlaymiz" class="nav-link">Qanday ishlaymiz</a>
+      <a href="#ustalar" class="nav-link">Ustalar</a>
+      <a href="#sharhlar" class="nav-link">Sharhlar</a>
+      <a href="#faq" class="nav-link">Savol-javob</a>
+    </nav>
+    <div class="header-cta">
+      <a href="tel:+998979260073" class="cta-call">
+        <span class="ico">📞</span>
+        <span><span class="small">Qo'ng'iroq qiling</span> +998979260073</span>
+      </a>
+      <a href="#buyurtma" class="btn-order">Usta chaqirish →</a>
+    </div>
+    <button class="mob-menu-btn" onclick="toggleMobDrawer()">☰</button>
+  </div>
+</header>
+
+<section class="hero" id="bosh">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge"><span class="dot"></span> Bugun 30 daqiqada usta yo'lga chiqadi</div>
+      <h1>Xolodilnik va konditsaner <em>buzilganmi?</em> Biz tezda tuzatamiz</h1>
+      <p>10+ yillik tajribaga ega ustalar uyingizga kelib, diagnostika va ta'mirlashni bir martalik tashrifda amalga oshiradi. Asl ehtiyot qismlar, yozma kafolat.</p>
+      <div class="hero-actions">
+        <a href="#buyurtma" class="btn-primary">🛠 Usta chaqirish</a>
+        <a href="tel:+998979260073" class="btn-secondary">📞 Qo'ng'iroq qilish</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num"><em>7</em>+</div><div class="lbl">Yillik tajriba</div></div>
+        <div class="hero-stat"><div class="num"><em>4 200</em>+</div><div class="lbl">Bajarilgan buyurtma</div></div>
+        <div class="hero-stat"><div class="num"><em>30</em> min</div><div class="lbl">O'rtacha yetib borish</div></div>
+        <div class="hero-stat"><div class="num"><em>4.9</em>★</div><div class="lbl">Mijozlar bahosi</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-card">
+        <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=700&q=80" alt="Texnik xizmat ustasi" onerror="this.src='https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=700&q=80'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="xizmatlar">
+  <div class="section-head">
+    <div class="section-tag">⚙️ Xizmatlar</div>
+    <h2>Eng ko'p uchraydigan <em>nosozliklarni</em> tuzatamiz</h2>
+    <p>Quyida narxlar — boshlang'ich (diagnostikadan keyin aniq narx aytiladi). Ehtiyot qism narxi alohida hisoblanadi.</p>
+  </div>
+  <div class="services-grid" id="servicesGrid"></div>
+</section>
+
+<section class="section" id="qanday-ishlaymiz" style="background:var(--light);border-radius:var(--radius-lg);">
+  <div class="section-head center">
+    <div class="section-tag">📋 Jarayon</div>
+    <h2>Qanday <em>ishlaymiz</em></h2>
+    <p>Buyurtmadan tortib ishni topshirishgacha — bor-yo'g'i 4 qadam</p>
+  </div>
+  <div class="process-row">
+    <div class="process-step"><div class="process-num">1</div><h4>Buyurtma berasiz</h4><p>Saytdan forma to'ldiring yoki qo'ng'iroq qiling — 2 daqiqa vaqt ketadi.</p></div>
+    <div class="process-step"><div class="process-num">2</div><h4>Usta tasdiqlaydi</h4><p>Operator siz bilan bog'lanib, qulay vaqtni kelishadi.</p></div>
+    <div class="process-step"><div class="process-num">3</div><h4>Diagnostika va ta'mirlash</h4><p>Usta uyingizga keladi, nosozlikni aniqlaydi va shu kuni tuzatadi.</p></div>
+    <div class="process-step"><div class="process-num">4</div><h4>Kafolat olasiz</h4><p>Bajarilgan ish uchun rasmiy kafolat varaqasi beriladi (3–12 oy).</p></div>
+  </div>
+</section>
+
+<section class="section order-section" id="buyurtma">
+  <div class="order-grid">
+    <div class="order-info">
+      <div class="section-tag">🛠 Buyurtma</div>
+      <h2>Hoziroq <em>usta chaqiring</em></h2>
+      <p>Formani to'ldiring — qisqa vaqt ichida operatorimiz siz bilan bog'lanadi va qulay vaqtni belgilaymiz.</p>
+      <div class="order-benefit"><div class="ob-ico">⚡</div><div><strong>Tezkor tashrif</strong><span>30–60 daqiqa ichida usta yo'lga chiqadi</span></div></div>
+      <div class="order-benefit"><div class="ob-ico">🔍</div><div><strong>Bepul diagnostika</strong><span>Agar ta'mirlashga rozi bo'lsangiz, tekshirish bepul</span></div></div>
+      <div class="order-benefit"><div class="ob-ico">🧰</div><div><strong>Asl ehtiyot qismlar</strong><span>Faqat original yoki sifatli analog detallar</span></div></div>
+      <div class="order-benefit"><div class="ob-ico">📝</div><div><strong>Yozma kafolat</strong><span>Har bir ish uchun kafolat varaqasi beriladi</span></div></div>
+    </div>
+    <div class="order-form-card">
+      <div id="formStep">
+        <h3>Buyurtma formasi</h3>
+        <div class="sub">Barcha maydonlarni to'ldiring</div>
+        <div class="fgroup">
+          <label>Qaysi texnika buzilgan? <span class="req">*</span></label>
+          <div class="device-options">
+            <label class="device-opt active" onclick="selectDevice(this)">
+              <input type="radio" name="device" value="xolodilnik" checked><span class="dico">🧊</span> Xolodilnik
+            </label>
+            <label class="device-opt" onclick="selectDevice(this)">
+              <input type="radio" name="device" value="konditsaner"><span class="dico">🫧</span> Konditsaner
+            </label>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Nosozlik turi <span class="req">*</span></label>
+          <select id="o-problem"><option value="">Tanlang...</option></select>
+        </div>
+        <div class="frow2">
+          <div class="fgroup"><label>Ismingiz <span class="req">*</span></label><input type="text" id="o-name" placeholder="Ism familiya"></div>
+          <div class="fgroup"><label>Telefon raqam <span class="req">*</span></label><input type="tel" id="o-phone" placeholder="+998 XX XXX XX XX"></div>
+        </div>
+        <div class="fgroup"><label>Manzil (mahalla, ko'cha, uy)</label><input type="text" id="o-address" placeholder="Toshkent, Chilonzor tumani, ..."></div>
+        <div class="fgroup"><label>Qo'shimcha izoh</label><textarea id="o-msg" rows="3" placeholder="Nosozlik haqida qisqacha yozing (ixtiyoriy)"></textarea></div>
+        <button class="submit-btn" onclick="submitOrder()">🛠 Buyurtma berish</button>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <div class="fs-ico">✅</div>
+        <h4>Buyurtmangiz qabul qilindi!</h4>
+        <p>Tez orada operatorimiz <strong id="successPhone"></strong> raqamiga qo'ng'iroq qiladi va qulay vaqtni kelishadi.</p>
+        <button class="submit-btn" style="margin-top:18px;" onclick="resetForm()">Yana buyurtma berish</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ustalar">
+  <div class="section-head center">
+    <div class="section-tag">👨‍🔧 Jamoa</div>
+    <h2>Bizning <em>ustalar</em></h2>
+    <p>Tajribali va sertifikatlangan mutaxassislar</p>
+  </div>
+  <div class="masters-grid" id="mastersGrid"></div>
+</section>
+
+<section class="section reviews-section" id="sharhlar">
+  <div class="section-head center">
+    <div class="section-tag">💬 Fikrlar</div>
+    <h2>Mijozlarimiz <em>nima deydi</em></h2>
+    <p>4 200+ qoniqgan mijozlardan ba'zilari</p>
+  </div>
+  <div class="reviews-grid" id="reviewsGrid"></div>
+</section>
+
+<section class="section" id="faq">
+  <div class="section-head center">
+    <div class="section-tag">❓ Savol-javob</div>
+    <h2>Ko'p so'raladigan <em>savollar</em></h2>
+    <p>Javobini topa olmadingizmi? Bizga qo'ng'iroq qiling: <strong>+998979260073</strong></p>
+  </div>
+  <div class="faq-list" id="faqList"></div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="cta-band">
+    <div class="cta-band-text">
+      <h3>Texnikangiz ishlamayaptimi?</h3>
+      <p>Hozir qo'ng'iroq qiling — bugun ustani uyingizga yuboramiz</p>
+    </div>
+    <a href="tel:+998979260073" class="btn-secondary">📞 +998979260073</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="ln">Climate-<em>life</em></div>
+      <p class="footer-desc">Toshkent bo'ylab xolodilnik, konditsaner va boshqa maishiy texnikalarni tezkor va sifatli ta'mirlash xizmati. 2018-yildan beri ishonchli hamkor.</p>
+      <div class="footer-social">
+        <a href="https://instagram.com/climate_life_" target="_blank" class="fsoc">📸</a>
+        <a href="tel:+998979260073" class="fsoc">📞</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Xizmatlar</h4><ul>
+      <li><a href="#xizmatlar">Xolodilnik ta'mirlash</a></li>
+      <li><a href="#xizmatlar">Konditsaner ta'mirlash</a></li>
+      <li><a href="#xizmatlar">Kompressor almashtirish</a></li>
+      <li><a href="#xizmatlar">Diagnostika</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Kompaniya</h4><ul>
+      <li><a href="#ustalar">Ustalar</a></li>
+      <li><a href="#sharhlar">Sharhlar</a></li>
+      <li><a href="#faq">Savol-javob</a></li>
+      <li><a href="admin.html">Admin Panel</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Aloqa</h4><ul>
+      <li><a href="tel:+998979260073">📞 +998979260073</a></li>
+      <li><a href="#">📍 Toshkent shahri, barcha tumanlar</a></li>
+      <li><a href="#">⏰ Har kuni 8:00 – 22:00</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bot">© 2025 Climate-life. Barcha huquqlar himoyalangan.</div>
+</footer>
+
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-head">
+    <div class="ln" style="font-size:18px;font-weight:900;color:var(--navy);">Climate-<em style="color:var(--orange)">life</em></div>
+    <button class="mob-close" onclick="toggleMobDrawer()">✕</button>
+  </div>
+  <ul class="mob-links">
+    <li><a href="#xizmatlar" onclick="toggleMobDrawer()">Xizmatlar</a></li>
+    <li><a href="#qanday-ishlaymiz" onclick="toggleMobDrawer()">Qanday ishlaymiz</a></li>
+    <li><a href="#ustalar" onclick="toggleMobDrawer()">Ustalar</a></li>
+    <li><a href="#sharhlar" onclick="toggleMobDrawer()">Sharhlar</a></li>
+    <li><a href="#faq" onclick="toggleMobDrawer()">Savol-javob</a></li>
+    <li><a href="#buyurtma" onclick="toggleMobDrawer()" style="color:var(--orange);">🛠 Usta chaqirish</a></li>
+    <li><a href="tel:+998979260073">📞 +998979260073</a></li>
+    <li><a href="admin.html">⚙️ Admin Panel</a></li>
+  </ul>
+</div>
+
+<a href="admin.html" class="admin-fab" title="Admin Panel">⚙️</a>
+<div class="toast" id="toast"></div>
+
+<script>
+var DEFAULT_SERVICES = [
+  {id:1,type:"t1",icon:"🧊",badge:"Mashhur",title:"Xolodilnik kompressorini almashtirish",desc:"Sovutmaydigan, doim ishlaydigan yoki shovqin chiqaradigan xolodilniklar uchun.",features:["Diagnostika bepul","Original kompressor","12 oy kafolat"],priceFrom:"350 000"},
+  {id:2,type:"t1",icon:"❄️",badge:"",title:"Frion quyish (gaz to'ldirish)",desc:"Xolodilnik sovutmay qolgan bo'lsa, frion sizib ketgan bo'lishi mumkin.",features:["Tez bajariladi","Sizish joyini topamiz","6 oy kafolat"],priceFrom:"200 000"},
+  {id:3,type:"t1",icon:"🔌",badge:"",title:"Termostat va boshqaruv platasi ta'miri",desc:"Displey ishlamasa, harorat noto'g'ri ko'rsatsa yoki o'chib qolsa.",features:["Plata diagnostikasi","Zapchast almashtirish","6 oy kafolat"],priceFrom:"150 000"},
+  {id:4,type:"t2",icon:"🫧",badge:"Mashhur",title:"Konditsaner gaz to'ldirish / freon",desc:"Konditsaner sovutmay qolgan bo'lsa, freon to'ldiramiz va sizishni tekshiramiz.",features:["1 kunda tayyor","Original freon","6 oy kafolat"],priceFrom:"180 000"},
+  {id:5,type:"t2",icon:"⚙️",badge:"",title:"Konditsaner kompressor / motor ta'miri",desc:"Tashqi blok ishlamasa, kompressor yoki ventilator motori ta'miri.",features:["Tez diagnostika","Sifatli zapchast","12 oy kafolat"],priceFrom:"250 000"},
+  {id:6,type:"t2",icon:"🔧",badge:"",title:"Konditsaner tozalash va profilaktika",desc:"Suv oqishi, yomon hid yoki kam sovutish — to'liq tozalash xizmati.",features:["Uyda tozalash","Filtr yangilash","Kafolat"],priceFrom:"120 000"}
+];
+var DEFAULT_MASTERS = [
+  {id:1,name:"Aziz Rahimov",role:"Bosh usta — Xolodilnik",photo:"https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=300&q=80",experience:"9 yil",orders:"1 200+",rating:"4.9",tags:["Kompressor","Frion","Plata"]},
+  {id:2,name:"Bobur Yusupov",role:"Usta — Konditsaner",photo:"https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=300&q=80",experience:"7 yil",orders:"980+",rating:"4.8",tags:["Freon","Motor","Montaj"]},
+  {id:3,name:"Davron Karimov",role:"Usta — Universal texnika",photo:"https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=300&q=80",experience:"6 yil",orders:"760+",rating:"4.9",tags:["Diagnostika","Elektronika"]},
+  {id:4,name:"Sherzod Tursunov",role:"Usta — Xolodilnik",photo:"https://images.unsplash.com/photo-1556157382-97eda2d62296?w=300&q=80",experience:"5 yil",orders:"540+",rating:"4.7",tags:["Termostat","Gaz to'ldirish"]}
+];
+var DEFAULT_REVIEWS = [
+  {id:1,name:"Madina Yusupova",meta:"Chilonzor, Toshkent",rating:5,text:"Xolodilnikim 3 kun ishlamay qoldi. Qo'ng'iroq qilganimdan keyin 40 daqiqada usta keldi, kompressorni almashtirib ketdi. Hozir a'lo ishlaydi!"},
+  {id:2,name:"Jasur Aliyev",meta:"Yunusobod, Toshkent",rating:5,text:"Konditsaner sovutmay qolgan edi. Usta kelib freon to'ldirdi, narxi ham aytilganidan oshmadi. Tavsiya qilaman."},
+  {id:3,name:"Nodira Saidova",meta:"Mirzo Ulug'bek, Toshkent",rating:4,text:"Diagnostika bepul bo'lgani juda yoqdi. Usta professional, ishini tez va sifatli bajardi. Kafolat varaqasi ham berdi."},
+  {id:4,name:"Otabek Nazarov",meta:"Shayxontohur, Toshkent",rating:5,text:"Frion sizib, xolodilnik sovutmay qolgandi. Bir kunda hammasini tuzatishdi. Narxlar ham bozordagidan past ekan."}
+];
+var DEFAULT_FAQ = [
+  {id:1,q:"Diagnostika rostdan ham bepulmi?",a:"Ha, agar siz keyinchalik ta'mirlashga rozi bo'lsangiz, diagnostika butunlay bepul. Faqat ta'mirlashdan voz kechilgan holatlarda kichik tashrif to'lovi olinishi mumkin."},
+  {id:2,q:"Usta qancha vaqt ichida yetib keladi?",a:"Odatda buyurtma qabul qilingandan so'ng 30–60 daqiqa ichida usta yo'lga chiqadi. Band kunlarda 2 soatgacha bo'lishi mumkin, lekin operator aniq vaqtni oldindan aytadi."},
+  {id:3,q:"Qanday kafolat berasiz?",a:"Bajarilgan har bir ish uchun yozma kafolat varaqasi beriladi. Kafolat muddati nosozlik turiga qarab 3 oydan 12 oygacha bo'ladi."},
+  {id:4,q:"To'lovni qachon va qanday amalga oshiraman?",a:"To'lov ish tugagandan keyin, naqd pul yoki Click/Payme orqali amalga oshiriladi. Oldindan to'lov talab qilinmaydi."},
+  {id:5,q:"Texnikam bu yerda ko'rsatilmagan brend bo'lsa-chi?",a:"Muammo emas — ustalarimiz Samsung, LG, Artel, Bosch, Beko, Gree, Midea, Daewoo va boshqa barcha brendlar bilan ishlay oladi."},
+  {id:6,q:"Ehtiyot qismlar narxiga kiradimi?",a:"Yo'q, yuqoridagi narxlar — faqat ish haqi. Ehtiyot qism almashtirish kerak bo'lsa, narxi alohida aytiladi va roziligingizdan keyin o'rnatiladi."}
+];
+
+var getServices = function(){ try{ var s=localStorage.getItem('tf_services'); return s?JSON.parse(s):DEFAULT_SERVICES; }catch(e){ return DEFAULT_SERVICES; } };
+var getMasters  = function(){ try{ var s=localStorage.getItem('tf_masters');  return s?JSON.parse(s):DEFAULT_MASTERS;  }catch(e){ return DEFAULT_MASTERS; } };
+var getReviews  = function(){ try{ var s=localStorage.getItem('tf_reviews');  return s?JSON.parse(s):DEFAULT_REVIEWS;  }catch(e){ return DEFAULT_REVIEWS; } };
+var getFaq      = function(){ try{ var s=localStorage.getItem('tf_faq');      return s?JSON.parse(s):DEFAULT_FAQ;      }catch(e){ return DEFAULT_FAQ; } };
+var getOrders   = function(){ try{ var s=localStorage.getItem('tf_orders');   return s?JSON.parse(s):[];               }catch(e){ return []; } };
+var saveOrders  = function(arr){ localStorage.setItem('tf_orders', JSON.stringify(arr)); };
+
+// Device qiymatlari PROBLEMS kalitlariga to'liq mos — forma muammosi tuzatilgan
+var PROBLEMS = {
+  xolodilnik: ["Sovutmayapti","Juda ko'p sovutadi / muzlab qoladi","Shovqin chiqaryapti","Suv oqizadi","Yorug'lik / displey ishlamaydi","Eshik yaxshi yopilmaydi","Boshqa nosozlik"],
+  konditsaner: ["Sovutmayapti","Isitmayapti","Suv tomchilaydi / oqadi","Shovqin yoki tebranish","Yomon hid chiqaradi","Pult / boshqaruv ishlamaydi","Yoqilmayapti / o'chib qoladi","Boshqa nosozlik"]
+};
+
+function renderServices(){
+  document.getElementById('servicesGrid').innerHTML = getServices().map(function(s){
+    return '<div class="svc-card '+(s.type||'t1')+'">'
+      +(s.badge?'<div class="svc-badge">'+s.badge+'</div>':'')
+      +'<div class="svc-ico">'+(s.icon||'🔧')+'</div>'
+      +'<h3>'+s.title+'</h3><p>'+(s.desc||'')+'</p>'
+      +'<ul class="svc-list">'+(s.features||[]).map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>'
+      +'<div class="svc-price"><span class="from">Narx (boshlang\'ich)</span><span class="val">'+s.priceFrom+' <small>so\'mdan</small></span></div></div>';
+  }).join('');
+}
+function renderMasters(){
+  document.getElementById('mastersGrid').innerHTML = getMasters().map(function(m){
+    return '<div class="master-card"><div class="master-photo"><img src="'+m.photo+'" alt="'+m.name+'" onerror="this.src=\'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=300&q=80\'"></div>'
+      +'<h4>'+m.name+'</h4><div class="master-role">'+m.role+'</div>'
+      +'<div class="master-meta"><span>🛠 '+m.experience+' tajriba</span><span>✅ '+m.orders+' buyurtma</span></div>'
+      +'<div class="master-stars">★★★★★ <span style="color:var(--muted);font-size:12px;font-weight:700;">'+m.rating+'</span></div>'
+      +'<div class="master-tags" style="margin-top:10px;">'+(m.tags||[]).map(function(t){return '<span class="mtag">'+t+'</span>';}).join('')+'</div></div>';
+  }).join('');
+}
+function renderReviews(){
+  document.getElementById('reviewsGrid').innerHTML = getReviews().map(function(r){
+    var initials = r.name.split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+    return '<div class="review-card"><div class="review-stars">'+'★'.repeat(r.rating)+'☆'.repeat(5-r.rating)+'</div>'
+      +'<div class="review-text">"'+r.text+'"</div>'
+      +'<div class="review-author"><div class="rauthor-avatar">'+initials+'</div>'
+      +'<div><div class="rauthor-name">'+r.name+'</div><div class="rauthor-meta">'+r.meta+'</div></div></div></div>';
+  }).join('');
+}
+function renderFaq(){
+  document.getElementById('faqList').innerHTML = getFaq().map(function(f,i){
+    return '<div class="faq-item" id="faq-'+i+'"><div class="faq-q" onclick="toggleFaq('+i+')"><span>'+f.q+'</span><span class="fplus">+</span></div><div class="faq-a">'+f.a+'</div></div>';
+  }).join('');
+}
+function toggleFaq(i){ document.getElementById('faq-'+i).classList.toggle('open'); }
+
+function populateProblems(device){
+  var sel = document.getElementById('o-problem');
+  var opts = PROBLEMS[device] || PROBLEMS.xolodilnik;
+  sel.innerHTML = '<option value="">Tanlang...</option>' + opts.map(function(o){return '<option value="'+o+'">'+o+'</option>';}).join('');
+}
+function selectDevice(el){
+  document.querySelectorAll('.device-opt').forEach(function(d){ d.classList.remove('active'); });
+  el.classList.add('active');
+  el.querySelector('input').checked = true;
+  populateProblems(el.querySelector('input').value);
+}
+function submitOrder(){
+  var device  = document.querySelector('input[name="device"]:checked').value;
+  var problem = document.getElementById('o-problem').value;
+  var name    = document.getElementById('o-name').value.trim();
+  var phone   = document.getElementById('o-phone').value.trim();
+  var address = document.getElementById('o-address').value.trim();
+  var msg     = document.getElementById('o-msg').value.trim();
+  if(!problem){ showToast('❌ Nosozlik turini tanlang'); return; }
+  if(!name){ showToast('❌ Ismingizni kiriting'); return; }
+  if(!phone || phone.length<7){ showToast('❌ Telefon raqamni to\'g\'ri kiriting'); return; }
+  var order = { id:Date.now(), device:device, problem:problem, name:name, phone:phone, address:address, msg:msg, status:'yangi', createdAt:new Date().toISOString() };
+  var orders = getOrders(); orders.unshift(order); saveOrders(orders);
+  document.getElementById('formStep').style.display='none';
+  document.getElementById('successPhone').textContent=phone;
+  document.getElementById('formSuccess').classList.add('show');
+}
+function resetForm(){
+  document.getElementById('formStep').style.display='block';
+  document.getElementById('formSuccess').classList.remove('show');
+  ['o-name','o-phone','o-address','o-msg'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('o-problem').value='';
+  document.querySelectorAll('.device-opt')[0].click();
+}
+function toggleMobDrawer(){ document.getElementById('mobDrawer').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
+function closeAll(){ document.getElementById('mobDrawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+function showToast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('show');},3000); }
+
+document.addEventListener('DOMContentLoaded',function(){
+  renderServices(); renderMasters(); renderReviews(); renderFaq();
+  populateProblems('xolodilnik');
+});
+    
+</script>
+</body>
+</html>
