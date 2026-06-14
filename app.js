@@ -4,7 +4,7 @@
 
 /* 1. SUPABASE SOZLAMALARI */
 const SUPABASE_URL = 'https://twcdwrcheytlhipvbrti.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_dZw5NNl5pWolj0qXb-aZJQ_r-pmdk';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3Y2R3cmNoZXl0bGhpcHZicnRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MTE2MzMsImV4cCI6MjA5Njk4NzYzM30.iEkLD3yYX-D8YWcHKZiqO1meOqdrQekdqryxHTx1Ea4';
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
