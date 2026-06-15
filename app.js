@@ -35,6 +35,141 @@ function toggleEye(inputId, eyeEl) {
 }
 
 /* ============================================================
+   TIL ALMASHTIRISH (UZ / RU) — Buyurtma formasi uchun
+   ============================================================ */
+const I18N = {
+  uz: {
+    form_title: "Buyurtma formasi",
+    form_sub: "Barcha maydonlarni to'ldiring",
+    lbl_device: "Qaysi texnika buzilgan? *",
+    device_fridge: "Xolodilnik",
+    device_ac: "Konditsaner",
+    lbl_problem: "Nosozlik turi *",
+    opt_select: "Tanlang...",
+    lbl_name: "Ismingiz *",
+    ph_name: "Ism familiya",
+    lbl_phone: "Telefon raqam *",
+    lbl_address: "Manzil (mahalla, ko'cha, uy)",
+    ph_address: "Toshkent, Chilonzor tumani, ...",
+    lbl_msg: "Qo'shimcha izoh",
+    ph_msg: "Nosozlik haqida qisqacha yozing (ixtiyoriy)",
+    btn_submit: "🛠 Buyurtma berish",
+    btn_submitting: "⏳ Yuborilmoqda...",
+    success_title: "Buyurtmangiz qabul qilindi!",
+    success_text_pre: "Tez orada operatorimiz ",
+    success_text_post: " raqamiga qo'ng'iroq qiladi va qulay vaqtni kelishadi.",
+    btn_again: "Yana buyurtma berish",
+    err_problem: "❌ Nosozlik turini tanlang",
+    err_name: "❌ Ismingizni kiriting",
+    err_phone: "❌ Telefon raqamni to'liq kiriting (+998 XX XXX XX XX)",
+    err_generic: "❌ Xatolik: "
+  },
+  ru: {
+    form_title: "Форма заказа",
+    form_sub: "Заполните все поля",
+    lbl_device: "Какая техника сломалась? *",
+    device_fridge: "Холодильник",
+    device_ac: "Кондиционер",
+    lbl_problem: "Тип неисправности *",
+    opt_select: "Выберите...",
+    lbl_name: "Ваше имя *",
+    ph_name: "Имя фамилия",
+    lbl_phone: "Номер телефона *",
+    lbl_address: "Адрес (махалля, улица, дом)",
+    ph_address: "Ташкент, Чиланзарский район, ...",
+    lbl_msg: "Дополнительный комментарий",
+    ph_msg: "Кратко опишите неисправность (необязательно)",
+    btn_submit: "🛠 Отправить заказ",
+    btn_submitting: "⏳ Отправка...",
+    success_title: "Ваш заказ принят!",
+    success_text_pre: "В ближайшее время наш оператор позвонит на номер ",
+    success_text_post: " и согласует удобное время.",
+    btn_again: "Оформить ещё заказ",
+    err_problem: "❌ Выберите тип неисправности",
+    err_name: "❌ Введите ваше имя",
+    err_phone: "❌ Введите полный номер телефона (+998 XX XXX XX XX)",
+    err_generic: "❌ Ошибка: "
+  }
+};
+const PROBLEMS_RU = {
+  xolodilnik: ["Не охлаждает", "Слишком сильно охлаждает / замерзает", "Издаёт шум", "Протекает вода", "Не работает подсветка / дисплей", "Дверь плохо закрывается", "Другая неисправность"],
+  konditsaner: ["Не охлаждает", "Не греет", "Капает / течёт вода", "Шум или вибрация", "Неприятный запах", "Не работает пульт / управление", "Не включается / выключается", "Другая неисправность"]
+};
+let currentLang = 'uz';
+function setLang(lang) {
+  currentLang = lang;
+  applyLang();
+  populateProblems(document.querySelector('input[name="device"]:checked').value);
+}
+function applyLang() {
+  const dict = I18N[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n');
+    if (!dict[key]) return;
+    // <span class="req">*</span> kabi ichki teglarni saqlab qolish uchun
+    const reqMatch = el.querySelector('.req');
+    if (reqMatch && /\*$/.test(dict[key])) {
+      el.innerHTML = dict[key].replace(/\*$/, '') + '<span class="req">*</span>';
+    } else {
+      el.textContent = dict[key];
+    }
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach((el) => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (dict[key]) el.setAttribute('placeholder', dict[key]);
+  });
+  const successText = document.querySelector('[data-i18n-html="success_text"]');
+  if (successText) {
+    const strong = successText.querySelector('#successPhone');
+    const phoneVal = strong ? strong.textContent : '';
+    successText.innerHTML = dict.success_text_pre + '<strong id="successPhone">' + phoneVal + '</strong>' + dict.success_text_post;
+  }
+  const opt = document.querySelector('#o-problem option[value=""]');
+  if (opt) opt.textContent = dict.opt_select;
+  document.querySelectorAll('.lang-switch button, .mob-drawer-lang button').forEach((b) => {
+    b.classList.toggle('active', b.getAttribute('data-lang') === currentLang);
+  });
+}
+
+/* ---------- Telefon raqam: +998 majburiy, faqat raqam, formatlash ---------- */
+function formatPhoneInput(input) {
+  let digits = input.value.replace(/\D/g, '');
+  if (digits.startsWith('998')) {
+    digits = digits.slice(0, 12); // 998 + 9 ta raqam
+  } else {
+    digits = ('998' + digits).slice(0, 12);
+  }
+  const rest = digits.slice(3); // operator kodi + raqam: XX XXX XX XX
+  let formatted = '+998';
+  if (rest.length > 0) formatted += ' ' + rest.slice(0, 2);
+  if (rest.length > 2) formatted += ' ' + rest.slice(2, 5);
+  if (rest.length > 5) formatted += ' ' + rest.slice(5, 7);
+  if (rest.length > 7) formatted += ' ' + rest.slice(7, 9);
+  const pos = input.selectionStart;
+  input.value = formatted;
+  // kursorni oxiriga qo'yamiz (oddiy holat uchun yetarli)
+  if (pos !== null) {
+    try { input.setSelectionRange(formatted.length, formatted.length); } catch (e) {}
+  }
+}
+function isValidUzPhone(phone) {
+  const digits = (phone || '').replace(/\D/g, '');
+  return /^998\d{9}$/.test(digits);
+}
+function initPhoneInput(input) {
+  if (!input.value || input.value.trim() === '') { input.value = '+998 '; }
+  input.addEventListener('input', () => formatPhoneInput(input));
+  input.addEventListener('focus', () => { if (!input.value) formatPhoneInput(input); });
+  input.addEventListener('keydown', (e) => {
+    // +998 qismini o'chirib tashlashga yo'l qo'ymaslik
+    const digitsBeforeCursor = input.value.slice(0, input.selectionStart || 0).replace(/\D/g, '').length;
+    if ((e.key === 'Backspace' || e.key === 'Delete') && digitsBeforeCursor <= 3) {
+      e.preventDefault();
+    }
+  });
+}
+
+/* ============================================================
    2. OMMAVIY SAYT — ma'lumotlarni Supabase'dan o'qish
    ============================================================ */
 const PROBLEMS = {
@@ -91,8 +226,14 @@ function toggleFaq(i) { document.getElementById('faq-' + i).classList.toggle('op
 
 function populateProblems(device) {
   const sel = document.getElementById('o-problem');
-  const opts = PROBLEMS[device] || PROBLEMS.xolodilnik;
-  sel.innerHTML = '<option value="">Tanlang...</option>' + opts.map((o) => '<option value="' + o + '">' + o + '</option>').join('');
+  const optsUz = PROBLEMS[device] || PROBLEMS.xolodilnik;
+  const optsLocal = (currentLang === 'ru') ? (PROBLEMS_RU[device] || PROBLEMS_RU.xolodilnik) : optsUz;
+  const dict = I18N[currentLang];
+  let html = '<option value="">' + dict.opt_select + '</option>';
+  for (let i = 0; i < optsUz.length; i++) {
+    html += '<option value="' + escapeHtml(optsUz[i]) + '">' + escapeHtml(optsLocal[i]) + '</option>';
+  }
+  sel.innerHTML = html;
 }
 function selectDevice(el) {
   document.querySelectorAll('.device-opt').forEach((d) => { d.classList.remove('active'); });
@@ -101,28 +242,32 @@ function selectDevice(el) {
   populateProblems(el.querySelector('input').value);
 }
 async function submitOrder() {
+  const dict = I18N[currentLang];
   const device = document.querySelector('input[name="device"]:checked').value;
   const problem = document.getElementById('o-problem').value;
   const name = document.getElementById('o-name').value.trim();
   const phone = document.getElementById('o-phone').value.trim();
   const address = document.getElementById('o-address').value.trim();
   const msg = document.getElementById('o-msg').value.trim();
-  if (!problem) { showToast('❌ Nosozlik turini tanlang'); return; }
-  if (!name) { showToast('❌ Ismingizni kiriting'); return; }
-  if (!phone || phone.length < 7) { showToast('❌ Telefon raqamni to\'g\'ri kiriting'); return; }
+  if (!problem) { showToast(dict.err_problem); return; }
+  if (!name) { showToast(dict.err_name); return; }
+  if (!isValidUzPhone(phone)) { showToast(dict.err_phone); document.getElementById('o-phone').focus(); return; }
   const btn = document.getElementById('orderSubmitBtn');
-  btn.disabled = true; btn.textContent = '⏳ Yuborilmoqda...';
+  btn.disabled = true; btn.textContent = dict.btn_submitting;
   const res = await sb.from('orders').insert([{ device, problem, name, phone, address, msg, status: 'yangi' }]);
-  btn.disabled = false; btn.textContent = '🛠 Buyurtma berish';
-  if (res.error) { showToast('❌ Xatolik: ' + res.error.message); return; }
+  btn.disabled = false; btn.textContent = dict.btn_submit;
+  if (res.error) { showToast(dict.err_generic + res.error.message); return; }
   document.getElementById('formStep').style.display = 'none';
   document.getElementById('successPhone').textContent = phone;
+  applyLang();
   document.getElementById('formSuccess').classList.add('show');
 }
 function resetForm() {
   document.getElementById('formStep').style.display = 'block';
   document.getElementById('formSuccess').classList.remove('show');
-  ['o-name', 'o-phone', 'o-address', 'o-msg'].forEach((id) => { document.getElementById(id).value = ''; });
+  ['o-name', 'o-address', 'o-msg'].forEach((id) => { document.getElementById(id).value = ''; });
+  const phoneInput = document.getElementById('o-phone');
+  phoneInput.value = '+998 ';
   document.getElementById('o-problem').value = '';
   document.querySelectorAll('.device-opt')[0].click();
 }
@@ -185,6 +330,22 @@ function toggleAdminSidebar() {
   document.getElementById('amobOverlay').classList.toggle('open');
 }
 
+/* ---------- Admin: parolni o'zgartirish ---------- */
+async function changeAdminPassword() {
+  const newPass = document.getElementById('pw-new').value;
+  const confirmPass = document.getElementById('pw-confirm').value;
+  if (!newPass || newPass.length < 6) { showToast("❌ Parol kamida 6 belgidan iborat bo'lsin"); return; }
+  if (newPass !== confirmPass) { showToast("❌ Parollar mos kelmadi"); return; }
+  const btn = document.getElementById('pw-save-btn');
+  btn.disabled = true; btn.textContent = '⏳ ...';
+  const res = await sb.auth.updateUser({ password: newPass });
+  btn.disabled = false; btn.textContent = '💾 Parolni saqlash';
+  if (res.error) { showToast('❌ ' + res.error.message); return; }
+  document.getElementById('pw-new').value = '';
+  document.getElementById('pw-confirm').value = '';
+  showToast('✅ Parol muvaffaqiyatli o\'zgartirildi');
+}
+
 /* ---------- Admin: jadval operatorlari ---------- */
 async function aGet(table, order) {
   let q = sb.from(table).select('*');
@@ -210,7 +371,7 @@ function goPage(p, btn) {
   document.getElementById('amobOverlay').classList.remove('open');
 }
 function goPageByName(p) {
-  const idx = { dashboard: 0, orders: 1, services: 2, masters: 3, reviews: 4, faq: 5 }[p];
+  const idx = { dashboard: 0, orders: 1, services: 2, masters: 3, reviews: 4, faq: 5, settings: 6 }[p];
   const btns = document.querySelectorAll('.anav');
   goPage(p, btns[idx]);
 }
@@ -522,7 +683,9 @@ function initAdmin() {
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   renderServices(); renderMasters(); renderReviews(); renderFaq();
+  applyLang();
   populateProblems('xolodilnik');
+  initPhoneInput(document.getElementById('o-phone'));
   document.getElementById('lp').addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
   document.getElementById('lu').addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
   ['order-modal', 'service-modal', 'master-modal', 'review-modal', 'faq-modal'].forEach((id) => {

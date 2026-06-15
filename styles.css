@@ -1,4 +1,4 @@
-    * {
+* {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -2268,5 +2268,194 @@
 
       .search-input {
         width: 100%;
+      }
+    }
+
+    /* ============================================================
+       BUYURTMA FORMASI — yangi chiroyli ko'rinish (faqat shu bo'lim)
+       ============================================================ */
+    .order-form-card {
+      position: relative;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .order-form-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--orange), var(--orange-dark));
+    }
+
+    .order-form-card .order-form-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .order-form-card .order-form-headtext h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .order-form-card .order-form-headtext h3::before {
+      content: '🛠';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: var(--orange-light);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Til almashtirish tugmasi */
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--light2);
+      border-radius: 50px;
+      padding: 3px;
+      flex-shrink: 0;
+    }
+
+    .lang-switch button {
+      padding: 6px 13px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      transition: .2s;
+    }
+
+    .lang-switch button.active {
+      background: #fff;
+      color: var(--orange-dark);
+      box-shadow: 0 2px 8px rgba(15, 27, 45, .08);
+    }
+
+    /* Header ichidagi til tugmasi */
+    .header-lang {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--light2);
+      border-radius: 50px;
+      padding: 3px;
+      flex-shrink: 0;
+      margin-right: 4px;
+    }
+
+    .header-lang button {
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      transition: .2s;
+    }
+
+    .header-lang button.active {
+      background: #fff;
+      color: var(--orange-dark);
+      box-shadow: 0 2px 8px rgba(15, 27, 45, .08);
+    }
+
+    /* Mobil drawer ichida - chap tomonda joylashadi */
+    .mob-drawer-lang {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--light2);
+      border-radius: 50px;
+      padding: 3px;
+    }
+
+    .mob-drawer-lang button {
+      padding: 7px 14px;
+      border-radius: 50px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--muted);
+      transition: .2s;
+    }
+
+    .mob-drawer-lang button.active {
+      background: #fff;
+      color: var(--orange-dark);
+      box-shadow: 0 2px 8px rgba(15, 27, 45, .08);
+    }
+
+    .mob-drawer-head {
+      justify-content: space-between;
+    }
+
+    .mob-drawer-head .mob-drawer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Fgroup'larga ikonkali label */
+    .order-form-card .fgroup label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Telefon input + bayroqcha prefiks */
+    .phone-field-wrap {
+      position: relative;
+      display: flex;
+      align-items: stretch;
+      border: 1.5px solid var(--border);
+      border-radius: 11px;
+      overflow: hidden;
+      transition: .2s;
+      background: #fff;
+    }
+
+    .phone-field-wrap:focus-within {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, .1);
+    }
+
+    .phone-field-wrap .phone-flag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 12px;
+      background: var(--light2);
+      font-size: 18px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+    }
+
+    .phone-field-wrap input {
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .phone-field-wrap input:focus {
+      box-shadow: none !important;
+    }
+
+    @media(max-width:480px) {
+      .order-form-card .order-form-head {
+        flex-direction: column;
+      }
+
+      .lang-switch {
+        align-self: flex-start;
       }
     }

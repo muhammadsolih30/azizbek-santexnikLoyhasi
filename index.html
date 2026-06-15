@@ -158,43 +158,55 @@
         </div>
         <div class="order-form-card">
           <div id="formStep">
-            <h3>Buyurtma formasi</h3>
-            <div class="sub">Barcha maydonlarni to'ldiring</div>
+            <div class="order-form-head">
+              <div class="order-form-headtext">
+                <h3 data-i18n="form_title">Buyurtma formasi</h3>
+                <div class="sub" data-i18n="form_sub">Barcha maydonlarni to'ldiring</div>
+              </div>
+              <div class="lang-switch" id="langSwitch">
+                <button type="button" data-lang="uz" onclick="setLang('uz')">UZ</button>
+                <button type="button" data-lang="ru" onclick="setLang('ru')">RU</button>
+              </div>
+            </div>
             <div class="fgroup">
-              <label>Qaysi texnika buzilgan? <span class="req">*</span></label>
+              <label data-i18n="lbl_device">Qaysi texnika buzilgan? <span class="req">*</span></label>
               <div class="device-options">
                 <label class="device-opt active" onclick="selectDevice(this)">
-                  <input type="radio" name="device" value="xolodilnik" checked><span class="dico">🧊</span> Xolodilnik
+                  <input type="radio" name="device" value="xolodilnik" checked><span class="dico">🧊</span> <span data-i18n="device_fridge">Xolodilnik</span>
                 </label>
                 <label class="device-opt" onclick="selectDevice(this)">
-                  <input type="radio" name="device" value="konditsaner"><span class="dico">🫧</span> Konditsaner
+                  <input type="radio" name="device" value="konditsaner"><span class="dico">🫧</span> <span data-i18n="device_ac">Konditsaner</span>
                 </label>
               </div>
             </div>
             <div class="fgroup">
-              <label>Nosozlik turi <span class="req">*</span></label>
+              <label data-i18n="lbl_problem">Nosozlik turi <span class="req">*</span></label>
               <select id="o-problem">
-                <option value="">Tanlang...</option>
+                <option value="" data-i18n="opt_select">Tanlang...</option>
               </select>
             </div>
             <div class="frow2">
-              <div class="fgroup"><label>Ismingiz <span class="req">*</span></label><input type="text" id="o-name"
-                  placeholder="Ism familiya"></div>
-              <div class="fgroup"><label>Telefon raqam <span class="req">*</span></label><input type="tel" id="o-phone"
-                  placeholder="+998 XX XXX XX XX"></div>
+              <div class="fgroup"><label data-i18n="lbl_name">Ismingiz <span class="req">*</span></label><input type="text" id="o-name"
+                  placeholder="Ism familiya" data-i18n-ph="ph_name"></div>
+              <div class="fgroup"><label data-i18n="lbl_phone">Telefon raqam <span class="req">*</span></label>
+                <div class="phone-field-wrap">
+                  <span class="phone-flag">🇺🇿</span>
+                  <input type="tel" id="o-phone" placeholder="+998 XX XXX XX XX">
+                </div>
+              </div>
             </div>
-            <div class="fgroup"><label>Manzil (mahalla, ko'cha, uy)</label><input type="text" id="o-address"
-                placeholder="Toshkent, Chilonzor tumani, ..."></div>
-            <div class="fgroup"><label>Qo'shimcha izoh</label><textarea id="o-msg" rows="3"
-                placeholder="Nosozlik haqida qisqacha yozing (ixtiyoriy)"></textarea></div>
-            <button class="submit-btn" id="orderSubmitBtn" onclick="submitOrder()">🛠 Buyurtma berish</button>
+            <div class="fgroup"><label data-i18n="lbl_address">Manzil (mahalla, ko'cha, uy)</label><input type="text" id="o-address"
+                placeholder="Toshkent, Chilonzor tumani, ..." data-i18n-ph="ph_address"></div>
+            <div class="fgroup"><label data-i18n="lbl_msg">Qo'shimcha izoh</label><textarea id="o-msg" rows="3"
+                placeholder="Nosozlik haqida qisqacha yozing (ixtiyoriy)" data-i18n-ph="ph_msg"></textarea></div>
+            <button class="submit-btn" id="orderSubmitBtn" onclick="submitOrder()" data-i18n="btn_submit">🛠 Buyurtma berish</button>
           </div>
           <div class="form-success" id="formSuccess">
             <div class="fs-ico">✅</div>
-            <h4>Buyurtmangiz qabul qilindi!</h4>
-            <p>Tez orada operatorimiz <strong id="successPhone"></strong> raqamiga qo'ng'iroq qiladi va qulay vaqtni
+            <h4 data-i18n="success_title">Buyurtmangiz qabul qilindi!</h4>
+            <p data-i18n-html="success_text">Tez orada operatorimiz <strong id="successPhone"></strong> raqamiga qo'ng'iroq qiladi va qulay vaqtni
               kelishadi.</p>
-            <button class="submit-btn" style="margin-top:18px;" onclick="resetForm()">Yana buyurtma berish</button>
+            <button class="submit-btn" style="margin-top:18px;" onclick="resetForm()" data-i18n="btn_again">Yana buyurtma berish</button>
           </div>
         </div>
       </div>
@@ -287,6 +299,12 @@
     <div class="overlay" id="overlay" onclick="closeAll()"></div>
     <div class="mob-drawer" id="mobDrawer">
       <div class="mob-drawer-head">
+        <div class="mob-drawer-left">
+          <div class="mob-drawer-lang" id="mobLangSwitch">
+            <button type="button" data-lang="uz" onclick="setLang('uz')">UZ</button>
+            <button type="button" data-lang="ru" onclick="setLang('ru')">RU</button>
+          </div>
+        </div>
         <div class="ln" style="font-size:18px;font-weight:900;color:var(--navy);">Climate-<em
             style="color:var(--orange)">life</em></div>
         <button class="mob-close" onclick="toggleMobDrawer()">✕</button>
@@ -349,6 +367,7 @@
           <button class="anav" onclick="goPage('masters',this)"><span class="aico">👨‍🔧</span> Ustalar</button>
           <button class="anav" onclick="goPage('reviews',this)"><span class="aico">💬</span> Sharhlar</button>
           <button class="anav" onclick="goPage('faq',this)"><span class="aico">❓</span> Savol-javob</button>
+          <button class="anav" onclick="goPage('settings',this)"><span class="aico">🔒</span> Sozlamalar</button>
           <div class="anav-spacer"></div>
           <button class="anav" onclick="closeAdmin()"><span class="aico">🌐</span> Saytni ko'rish</button>
         </nav>
@@ -525,6 +544,29 @@
               <div class="panel-title" id="faq-count-lbl">0 ta savol</div>
             </div>
             <div style="padding:18px;display:flex;flex-direction:column;gap:10px;" id="faq-list-admin"></div>
+          </div>
+        </div>
+
+        <div class="apage" id="ap-settings">
+          <div class="apage-header">
+            <div class="apage-title">🔒 Sozlamalar</div>
+            <div class="apage-sub">Admin parolini o'zgartirish</div>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Yangi parol o'rnatish</div>
+            </div>
+            <div style="padding:18px;max-width:420px;display:flex;flex-direction:column;gap:14px;">
+              <div class="fgroup">
+                <label>Yangi parol</label>
+                <input type="password" id="pw-new" placeholder="Kamida 6 belgi" autocomplete="new-password">
+              </div>
+              <div class="fgroup">
+                <label>Yangi parolni takrorlang</label>
+                <input type="password" id="pw-confirm" placeholder="Parolni qayta kiriting" autocomplete="new-password">
+              </div>
+              <button class="btn btn-orange" id="pw-save-btn" onclick="changeAdminPassword()">💾 Parolni saqlash</button>
+            </div>
           </div>
         </div>
       </main>
